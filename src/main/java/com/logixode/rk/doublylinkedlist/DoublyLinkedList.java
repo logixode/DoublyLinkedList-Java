@@ -1,24 +1,30 @@
 package com.logixode.rk.doublylinkedlist;
 
-/**
- *
- * @author fr
+/** Proses utama DoublyLinkedList
+ * @author Rohmad Kurniadi
  */
 public class DoublyLinkedList {
     private Node first;
     private Node last;
     
+    /** Class Constructor
+     *  reset first & last
+     */
     public DoublyLinkedList() {
         this.first = null;
         this.last = null;
     }
     
+    /** Method untuk menambahkan data ke awal List
+     * @param data int  value untuk ditambahkan
+     * @return void
+     */
     public void insertFirst( int data ) {
         Node newNode = new Node();
         newNode.data = data;
         
         if( isEmpty() ) {
-            // merepresentasikan ke Node baru di akhir list
+            // merepresentasikan Node baru di akhir list
             last = newNode;
         }
         else
@@ -28,11 +34,16 @@ public class DoublyLinkedList {
         this.first = newNode;
     }
     
+    /** Method untuk menambahkan data ke akhir list
+     * @param data int  value untuk ditambahkan
+     * @return void
+     */
     public void insertLast( int data ) {
         Node newNode = new Node();
         newNode.data = data;
         
         if( isEmpty() ) {
+            // merepresentasikan Node baru di awal list
             first = newNode;
         }
         else {
@@ -40,15 +51,17 @@ public class DoublyLinkedList {
             newNode.previous = last;
         }
         
-        // merepresentasikan ke Node baru di akhir list
         last = newNode;
     }
     
-    // diasumsikan list tidak kosong
-    public Node deleteFirst() {
-        Node temp = first;
+    /** Function untuk manghapus data yang berada di awal List(tidak kosong)
+     * @return temp int  value data node yg telah terhapus
+     */
+    public int deleteFirst() {
+        int temp = first.data; // jika pakai Node yg keluar alamat memory
         
-        if( first.next == null ) { // jika value list hanya 1
+        // jika value list hanya 1
+        if( first.next == null ) { 
             last = null;
         }
         else
@@ -59,23 +72,32 @@ public class DoublyLinkedList {
         return temp;
     }
     
-    // diasumsikan list tidak kosong
-    public Node deleteLast() {
-        Node temp = last;
+    /** Function untuk manghapus data yang berada di akhir List(tidak kosong)
+     * @return temp int  value data node yg telah terhapus
+     */
+    public int deleteLast() {
+        int temp = last.data;
         
-        if( first.next == null) {
+        // jika value list hanya 1
+        if( first.next == null) { 
             first = null;
         }
         else 
             last.previous.next = null;
         
-        last = last.previous;
+        last = last.previous; // geser last
         return temp;
     }
     
+    /** Method untuk menambahkan data ke diantara 2 node ke list
+     * @param key int  letak value node tertentu
+     * @param data int  value untuk ditambahkan
+     * @return true
+     */
     public boolean insertAfter( int key, int data ) {
         Node current = first;
         
+        // mencari value key didalam list
         while( current.data != key ) {
             current = current.next;
             
@@ -87,9 +109,11 @@ public class DoublyLinkedList {
         Node newNode = new Node();
         newNode.data = data;
         
-        if( current == last ) {
+        // jika node ditemukan di akhir list
+        if( current == last ) { 
+            // insert data diantara diakhir node
             current.next = null;
-            last =  newNode;
+            last = newNode;
         }
         else {
             newNode.next = current.next;
@@ -102,9 +126,14 @@ public class DoublyLinkedList {
         return true;
     }
     
+    /** Function untuk manghapus data berdasarkan value nya
+     * @param key int  letak value node tertentu
+     * @return current Node  lokasi memory data yang telah terhapus
+     */
     public Node deleteKey( int key ) {
         Node current = first;
         
+        // mencari value key didalam list
         while(current.data != key ) {
             current = current.next;
             
@@ -113,12 +142,14 @@ public class DoublyLinkedList {
             }
         }
         
+        // jika node ditemukan di awal list
         if( current == first ) {
             first = current.next;
         }
         else 
             current.previous.next = current.next;
         
+        // jika node ditemukan di akhir list
         if( current == last ) {
             last = current.previous;
         }
@@ -128,6 +159,9 @@ public class DoublyLinkedList {
         return current;
     }
     
+    /** Method untuk menampilkan List secara urut
+     * @return void
+     */
     public void displayForward() {
         System.out.print("List (first --> last) : ");
         Node current = first;
@@ -140,6 +174,9 @@ public class DoublyLinkedList {
         System.out.println();
     }
     
+    /** Method untuk menampilkan List secara terbalik
+     * @return void
+     */
     public void displayBackward() {
         System.out.print("List (last --> first) : ");
         Node current = last; 
@@ -152,6 +189,9 @@ public class DoublyLinkedList {
         System.out.println();
     }
     
+    /** Function untuk cek kondisi jika first kosong
+     * @return boolean true atau false
+     */
     public boolean isEmpty() {
         return first == null;
     }
